@@ -1,8 +1,19 @@
 <template>
   <div :class="['message', isUser ? 'user-message' : 'bot-message']">
-    <div class="avatar" v-if="!isUser">V</div>
-    <div class="message-content">{{ content }}</div>
-    <div class="avatar" v-if="isUser">U</div>
+    <div class="avatar" v-if="!isUser">
+      <img src="../assets/grok-avatar.png" alt="Grok" class="avatar-img" />
+    </div>
+    <div class="message-content">
+      <div v-if="featureType" class="feature-indicator">
+        <span v-if="featureType === 'deepsearch'" class="feature-badge deepsearch">👁️ DeepSearch</span>
+        <span v-if="featureType === 'think'" class="feature-badge think">💡 Think</span>
+        <span v-if="featureType === 'editimage'" class="feature-badge editimage">✏️ Edit Image</span>
+      </div>
+      {{ content }}
+    </div>
+    <div class="avatar user-avatar" v-if="isUser">
+      <img src="../assets/user-avatar.png" alt="User" class="avatar-img" />
+    </div>
   </div>
 </template>
 
@@ -15,6 +26,10 @@ defineProps({
   isUser: {
     type: Boolean,
     default: false
+  },
+  featureType: {
+    type: String,
+    default: null
   }
 });
 </script>
@@ -22,9 +37,7 @@ defineProps({
 <style scoped>
 .message {
   max-width: 80%;
-  padding: 12px 16px;
-  border-radius: 12px;
-  line-height: 1.5;
+  padding: 12px 0;
   margin-bottom: 16px;
   word-wrap: break-word;
   display: flex;
@@ -34,8 +47,10 @@ defineProps({
 
 .message-content {
   padding: 12px 16px;
-  border-radius: 10px;
+  border-radius: 16px;
   flex: 1;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .user-message {
@@ -44,9 +59,9 @@ defineProps({
 }
 
 .user-message .message-content {
-  background-color: #343541;
-  color: white;
-  text-align: right;
+  background-color: #f0f0f0;
+  color: #000;
+  border-radius: 16px;
 }
 
 .bot-message {
@@ -55,9 +70,10 @@ defineProps({
 }
 
 .bot-message .message-content {
-  background-color: #f7f7f8;
+  background-color: #fff;
   color: #000;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
 }
 
 .avatar {
@@ -69,16 +85,42 @@ defineProps({
   justify-content: center;
   font-weight: bold;
   flex-shrink: 0;
+  overflow: hidden;
+  background-color: #f0f0f0;
 }
 
-.user-message .avatar {
-  background-color: #6b6c7b;
-  color: white;
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.bot-message .avatar {
-  background-color: #10a37f;
-  color: white;
+.feature-indicator {
+  margin-bottom: 8px;
+}
+
+.feature-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.deepsearch {
+  background-color: rgba(30, 136, 229, 0.1);
+  color: #1e88e5;
+}
+
+.think {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+}
+
+.editimage {
+  background-color: rgba(156, 39, 176, 0.1);
+  color: #9c27b0;
 }
 
 @media (min-width: 769px) {
@@ -101,13 +143,12 @@ defineProps({
 @media (max-width: 768px) {
   .message {
     max-width: 90%;
-    padding: 8px 12px;
+    padding: 8px 0;
   }
   
   .avatar {
     width: 30px;
     height: 30px;
-    font-size: 0.8rem;
   }
 }
 </style> 
