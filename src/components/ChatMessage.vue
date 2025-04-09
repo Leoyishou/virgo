@@ -1,7 +1,7 @@
 <template>
   <div :class="['message', isUser ? 'user-message' : 'bot-message']">
     <div class="avatar" v-if="!isUser">
-      <img src="../assets/grok-avatar.png" alt="Grok" class="avatar-img" />
+      <div class="avatar-placeholder">Q</div>
     </div>
     <div class="message-content">
       <div v-if="featureType" class="feature-indicator">
@@ -12,7 +12,7 @@
       {{ content }}
     </div>
     <div class="avatar user-avatar" v-if="isUser">
-      <img src="../assets/user-avatar.png" alt="User" class="avatar-img" />
+      <div class="avatar-placeholder">U</div>
     </div>
   </div>
 </template>
@@ -95,6 +95,17 @@ defineProps({
   object-fit: cover;
 }
 
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #1e88e5;
+  background-color: #e3f2fd;
+}
+
 .feature-indicator {
   margin-bottom: 8px;
 }
@@ -151,4 +162,4 @@ defineProps({
     height: 30px;
   }
 }
-</style> 
+</style>    
